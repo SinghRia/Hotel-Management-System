@@ -1,0 +1,205 @@
+//Room Allotment and booking system using advance DSA Concepts and Multiple parameters IN C++
+
+#include <conio.h>
+#include <cstdio>
+#include <iostream>
+#include <string.h>
+#include <cstdlib>
+using namespace std;
+
+static int p = 0;
+class a
+{
+  char roomno[5], host[10], start[5], send[5], from[10], to[10], chair[8][4][10];
+  public:
+  void enter();
+  void allotment();
+  void empty();
+  void show();
+  void available();
+  void position(int i);
+}room[10];
+
+void a::enter()
+{
+  cout<<"Enter Room no. from 1 to 5: ";
+  cin>>room[p].roomno;
+  cout<<"\nEnter Host's name: ";
+  cin>>room[p].host;
+  cout<<"\nStart time: ";
+  cin>>room[p].start;
+  cout<<"\nSession Ends at: ";
+  cin>>room[p].send;
+  cout<<"\nFrom: \t\t\t";
+  cin>>room[p].from;
+  cout<<"\nTo: \t\t\t";
+  cin>>room[p].to;
+  room[p].empty();
+  p++;
+}
+
+void a::allotment()
+{
+  int chair;
+  char num[5];
+  cout<<"Room no: ";
+  cin>>num;
+  int n;
+  for(n=0;n<=p;n++)
+  {
+    if(strcmp(room[n].roomno, num)==0)
+    break;
+  }
+  while(n<=p)
+  {
+    cout<<"\nEnter Chair Number: ";
+    cin>>chair;
+    if(chair>32)
+    {
+      cout<<"\nOops, there are only 32 Chair available in this Room.";
+    }
+    else
+    {
+    if (strcmp(room[n].chair[chair/4][(chair%4)-1], "Empty")==0)
+      {
+        cout<<"Enter traveller's name: ";
+        cin>>room[n].chair[chair/4][(chair%4)-1];
+        break;
+      }
+    else
+      cout<<"Sorry ,the Chair no. is already reserved.\nPlease choose another.\n";
+      }
+      }
+   if(n>p)
+    {
+      cout<<"Can't allot .\n";
+     // goto top;
+    }
+      }
+void a::empty()
+{
+  for(int i=0; i<8;i++)
+  {
+    for(int j=0;j<4;j++)
+    {
+      strcpy(room[p].chair[i][j], "Empty");
+    }
+  }
+}
+void a::show()
+{
+  int n;
+  char number[5];
+  cout<<"Enter Room no: ";
+  cin>>number;
+  for(n=0;n<=p;n++)
+  {
+    if(strcmp(room[n].roomno, number)==0)
+    break;
+  }
+while(n<=p)
+{
+  cout<<"************************************************************************************************";
+  cout<<"\nRoom no: \t"<<room[n].roomno
+  <<"\nHost: \t"<<room[n].host<<"\t\tStart time: \t"
+  <<room[n].start<<"\t End time:"<<room[n].send
+  <<"\nFrom: \t\t"<<room[n].from<<"\t\tTo: \t\t"<<
+  room[n].to<<"\n";
+ cout<<"*************************************************************************************************";
+  room[0].position(n);
+  int a=1;
+  for (int i=0; i<8; i++)
+  {
+    for(int j=0;j<4;j++)
+    {
+      a++;
+      if(strcmp(room[n].chair[i][j],"Empty")!=0)
+      cout<<"\nThe Chair no "<<(a-1)<<" is reserved for "<<room[n].chair[i][j]<<".";
+    }
+  }
+  break;
+  if(n>p)
+    cout<<"Enter correct Room no: ";
+}
+}
+void a::position(int l)
+{
+  int s=0;p=0;
+  for (int i =0; i<8;i++)
+  {
+    cout<<"\n";
+    for (int j = 0;j<4; j++)
+    {
+      s++;
+      if(strcmp(room[l].chair[i][j], "Empty")==0)
+        {
+          cout.width(5);
+          cout.fill(' ');
+          cout<<s<<".";
+          cout.width(10);
+          cout.fill(' ');
+          cout<<room[l].chair[i][j];
+          p++;
+        }
+        else
+        {
+        cout.width(5);
+        cout.fill(' ');
+        cout<<s<<".";
+        cout.width(10);
+        cout.fill(' ');
+        cout<<room[l].chair[i][j];
+        }
+      }
+    }
+  cout<<"\n\nThere are "<<p<<" Chairs empty in Room No: "<<room[l].roomno;
+  } 
+void a::available()
+{
+  for(int n=0;n<p;n++)
+  {
+   cout<<"\n*************************************************************************************************"<<endl;
+   
+    cout<<"Room no: \t"<<room[n].roomno;
+	cout<<"\nHost: \t"<<room[n].host;
+    cout<<"\t\tStart time: \t";
+	cout<<room[n].start<<"\tEnd Time: \t";
+    cout<<room[n].send<<"\nFrom:\t\t";
+	cout<<room[n].from<<"\t\tTo: \t\t";
+    cout<<room[n].to<<"\n\n";
+    
+   cout<<"\n*************************************************************************************************"<<endl;
+    cout<<"\n____________________________________________________________________________________________________"<<endl<<endl;
+  }
+}
+int main()
+{
+	
+system("cls");
+int choice;
+cout<<"\nWELCOME TO THE ROOM BOOKING AND ALLOTMENT SYSTEM";
+while(1)
+{  
+  cout<<"\n\n\n\n1. Add a New Entry\n"
+  <<"2. Make Reservations\n"
+  <<"3. Show details\n"
+  <<"4. Rooms Available"
+  <<"\n5. Exit";
+  cout<<"\n\nPlease enter your choice:-> ";
+  cin>>choice;
+  switch(choice)
+  {
+    case 1:  room[p].enter();
+      break;
+    case 2:  room[p].allotment();
+      break;
+    case 3:  room[0].show();
+      break;
+    case 4:  room[0].available();
+      break;
+    case 5:  cout<<"\n\nTHANK YOU FOR USING THIS SERVICE\n\n";
+	         exit(0);
+  }
+}
+return 0;
+}
